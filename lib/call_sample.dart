@@ -3,6 +3,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_webrtc/webrtc.dart';
 import 'package:flutter_openvidu_demo/utils/signaling.dart';
 
+import 'main.dart';
+
 class CallSampleWidget extends StatefulWidget {
 
 
@@ -59,6 +61,18 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepOrange,
+        title: widget.isWatching? Text(widget.userName) : Text("My stream"),
+        leading: IconButton(icon: Icon(Icons.arrow_back),onPressed: () {
+    Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => MyHome()),
+    );
+    },
+
+      ),),
+
       body: OrientationBuilder(builder: (context, orientation) {
         return new Container(
           child: new Stack(children: <Widget>[

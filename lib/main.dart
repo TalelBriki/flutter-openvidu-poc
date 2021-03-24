@@ -148,10 +148,10 @@ class _MyHomeState extends State<MyHome> {
       backgroundColor:Colors.white,
         appBar: new AppBar(
           backgroundColor: HexColor("e33f0c"),
-          title: const Text('Flutter OpenVidu Poc'),
+          title: const Text('Shopchat poc'),
           actions: <Widget>[
             Row(children: <Widget>[
-              isOnline ? Image(image: AssetImage('assets/logo.png'),fit: BoxFit.fill, width: 35,) :
+              isOnline ? Image(image: AssetImage('assets/openvidu_logo.png'),fit: BoxFit.fill, width: 35,) :
               Image(image: AssetImage('assets/offline_icon.png'),fit: BoxFit.fill, width: 35,),
             ]),
           ]
@@ -193,15 +193,17 @@ class _MyHomeState extends State<MyHome> {
                       ),
                     ),
                     SizedBox(height:30,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    Wrap(
+                      spacing: 20, // to apply margin in the main axis of the wrap
+                      runSpacing: 20,
+
                       children: [
                         FlatButton(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right:10),
+                                padding: const EdgeInsets.only(right:0.5),
                                 child: Text(isOnline ? 'LunchStream' : '   Offline  ',
                                   style: TextStyle(fontSize: 20.0),
                                 ),
@@ -223,7 +225,7 @@ class _MyHomeState extends State<MyHome> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(right:10),
+                                padding: const EdgeInsets.only(right:0.5),
                                 child: Text(isOnline ? 'WatchStream' : '   Offline  ',
                                   style: TextStyle(fontSize: 20.0),
                                 ),
