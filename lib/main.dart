@@ -214,7 +214,7 @@ class _MyHomeState extends State<MyHome> {
                           textColor: Colors.white,
                           padding: EdgeInsets.all(15.0),
                           shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(50)),
-                          color: Colors.green[400],
+                          color: Colors.deepOrange,
                           disabledColor: Colors.grey,
                           onPressed: isOnline ? ()  =>_launchStreamHandle(context)
                               : null,
@@ -237,7 +237,7 @@ class _MyHomeState extends State<MyHome> {
                           textColor: Colors.white,
                           padding: EdgeInsets.all(15.0),
                           shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(50)),
-                          color: Colors.green[400],
+                          color: Colors.deepOrange,
                           disabledColor: Colors.grey,
                           onPressed: isOnline ? () =>_watchStreamHandle(context)
                           : null,

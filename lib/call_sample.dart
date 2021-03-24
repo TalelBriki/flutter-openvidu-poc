@@ -140,7 +140,7 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
 //get session
 
       final bool sessionInfo=await _signaling.webRtcSessionLookup(sessionId: widget.sessionName);
-      print('◤◢◤◢◤◢◤◢◤◢◤ session exits: $sessionInfo  ◤◢◤◢◤◢◤◢◤◢◤ ');
+      print('◤◢◤◢◤◢◤◢◤◢◤ session exists: $sessionInfo  ◤◢◤◢◤◢◤◢◤◢◤ ');
 
       //_Create session
       final String sessionId = await _signaling.createWebRtcSession(sessionId: widget.sessionName);
