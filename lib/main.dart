@@ -111,9 +111,35 @@ class _MyHomeState extends State<MyHome> {
             .of(context)
             .showSnackBar(SnackBar(content: Text('Stream id already exits')));
   }
-
-
+    }
   }
+
+
+  Future<dynamic> _watchStreamHandle(BuildContext context) async{
+    {
+      _signaling = new Signaling('${_textUrlController.text}:${_textPortController.text}', _textSecretController.text,_textUserNameController.text,_textIceServersController.text,false);
+      _sessionInfo=await _signaling.webRtcSessionLookup(sessionId: _textSessionController.text);
+// testing if session with given id already exists
+      if(_sessionInfo){
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          _saveSharedPref();
+          return CallSampleWidget(
+              isWatching:true,
+              server: '${_textUrlController.text}:${_textPortController.text}',
+              sessionName: _textSessionController.text,
+              userName: _textUserNameController.text,
+              secret: _textSecretController.text,
+              iceServer: _textIceServersController.text );
+        })
+        );
+      }
+      else {
+
+        ScaffoldMessenger
+            .of(context)
+            .showSnackBar(SnackBar(content: Text('Stream id does not exit')));
+      }
+}
   }
 
   @override
@@ -125,7 +151,7 @@ class _MyHomeState extends State<MyHome> {
           title: const Text('Flutter OpenVidu Poc'),
           actions: <Widget>[
             Row(children: <Widget>[
-              isOnline ? Image(image: AssetImage('assets/openvidu_logo.png'),fit: BoxFit.fill, width: 35,) :
+              isOnline ? Image(image: AssetImage('assets/logo.png'),fit: BoxFit.fill, width: 35,) :
               Image(image: AssetImage('assets/offline_icon.png'),fit: BoxFit.fill, width: 35,),
             ]),
           ]
@@ -211,18 +237,8 @@ class _MyHomeState extends State<MyHome> {
                           shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(50)),
                           color: Colors.green[400],
                           disabledColor: Colors.grey,
-                          onPressed: isOnline ? () =>
-                              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                                _saveSharedPref();
-                                return CallSampleWidget(
-                                    isWatching:true,
-                                    server: '${_textUrlController.text}:${_textPortController.text}',
-                                    sessionName: _textSessionController.text,
-                                    userName: _textUserNameController.text,
-                                    secret: _textSecretController.text,
-                                    iceServer: _textIceServersController.text );
-                              })
-                              ) : null,
+                          onPressed: isOnline ? () =>_watchStreamHandle(context)
+                          : null,
                         ),
                       ],
                     ),
