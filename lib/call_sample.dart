@@ -13,7 +13,7 @@ class CallSampleWidget extends StatefulWidget {
   final String userName;
   final String secret;
   final String iceServer;
-final bool isWatching;
+  final bool isWatching;
   @override
   _CallSampleWidgetState createState() => _CallSampleWidgetState();
 }
@@ -72,7 +72,7 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height,
                 child: new RTCVideoView(widget.isWatching? _remoteRenderer:_localRenderer),
-                decoration: new BoxDecoration(color: Colors.black54),
+                decoration: new BoxDecoration(color: Colors.black),
               )
             ),
 
@@ -82,7 +82,7 @@ class _CallSampleWidgetState extends State<CallSampleWidget> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: new SizedBox(
         width: 200.0,
-        child:widget.isWatching? null: new Row(
+        child:widget.isWatching ? null: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             FloatingActionButton(

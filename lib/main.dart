@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_openvidu_demo/HexColor.dart';
 import 'dart:math';
 import 'dart:io';
 import 'dart:async';
@@ -27,13 +28,16 @@ class _MyHomeState extends State<MyHome> {
   TextEditingController _textPortController;
   TextEditingController _textIceServersController;
   bool _sessionInfo=true;
-Signaling _signaling;
+  Signaling _signaling;
+
+
+
   @override
   void initState(){
     super.initState();
 
-    _textSessionController    = TextEditingController(text: 'Session-flutter-test-${Random().nextInt(1000)}');
-    _textUserNameController   = TextEditingController(text: 'FlutterUser${Random().nextInt(1000)}');
+    _textSessionController    = TextEditingController();
+    _textUserNameController   = TextEditingController();
     _textUrlController        = TextEditingController(text: 'demos.openvidu.io');
     _textSecretController     = TextEditingController(text: 'MY_SECRET');
     _textPortController       = TextEditingController(text: '443');
@@ -43,7 +47,6 @@ Signaling _signaling;
     _loadSharedPref();
     _liveConn();
   }
-
   Future<void> _loadSharedPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     _textUrlController.text        = prefs.getString('textUrl')        ?? _textUrlController.text;
@@ -52,7 +55,6 @@ Signaling _signaling;
     _textIceServersController.text = prefs.getString('textIceServers') ?? _textIceServersController.text;
     print('Loaded user inputs value.');
   }
-
   Future<void> _saveSharedPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString('textUrl', _textUrlController.text);
@@ -61,7 +63,6 @@ Signaling _signaling;
     await prefs.setString('textIceServers', _textIceServersController.text);
     print('Saved user inputs values.'); 
   }
-
   Future<void> _liveConn() async{
     await _checkOnline();
     Timer.periodic(Duration(seconds: 5), (timer) async{
@@ -86,7 +87,6 @@ Signaling _signaling;
       }
     }
   }
-
   Future<dynamic> _launchStreamHandle(BuildContext context) async{
     {
       _signaling = new Signaling('${_textUrlController.text}:${_textPortController.text}', _textSecretController.text,_textUserNameController.text,_textIceServersController.text,false);
@@ -119,8 +119,10 @@ Signaling _signaling;
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      backgroundColor:Colors.white,
         appBar: new AppBar(
-          title: const Text('Flutter openVidu demo'),
+          backgroundColor: HexColor("e33f0c"),
+          title: const Text('Flutter OpenVidu Poc'),
           actions: <Widget>[
             Row(children: <Widget>[
               isOnline ? Image(image: AssetImage('assets/openvidu_logo.png'),fit: BoxFit.fill, width: 35,) :
@@ -128,127 +130,105 @@ Signaling _signaling;
             ]),
           ]
         ),
-        drawer: Drawer(
-          child: ListView(
-            children: <Widget>[
-              ListTile(
-                leading: CircleAvatar(backgroundImage:  AssetImage('assets/openvidu_logo.png')),
-                title: Text("Flutter openVidu demo"),
-                subtitle: Text("v 1.0.0"),
-              ),
-              ListTile(leading: Icon(Icons.home), title: Text("Home"),onTap:(){Navigator.of(context).pop();}),
-              InkWell(
-                  child: new ListTile(leading: Icon(Icons.insert_link), title: Text("GitHub")),
-                  onTap: () => launch('https://github.com/cyb3rcod3/flutter-openvidu-demo')
-              ),
-              InkWell(
-                  child: new ListTile(leading: Icon(Icons.insert_link), title: Text("openVidu")),
-                  onTap: () => launch('https://openvidu.io')
-              ),
-              
-            ],
-          )
-        ),
-        body: Container(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(10.0),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _textSessionController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
-                      border: OutlineInputBorder(),
-                      labelText: 'Session room name',
-                      hintText: 'Enter session room name'
+
+        body: Center(
+          child: Container(
+
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(10.0),
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    TextField(
+                      controller: _textSessionController,
+                      decoration: InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:BorderSide(color:HexColor("e33f0c"))),
+                        contentPadding: EdgeInsets.all(5),
+                        border: OutlineInputBorder(),
+                        labelText: 'Session room name',
+                        hintText: 'Enter session room name'
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _textUserNameController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
-                      border: OutlineInputBorder(),
-                      labelText: 'Session username',
-                      hintText: 'Enter username'
+                    SizedBox(height: 10),
+                    TextField(
+                      controller: _textUserNameController,
+                      decoration: InputDecoration(
+                          enabledBorder: OutlineInputBorder(
+                            borderSide:BorderSide(color:HexColor("e33f0c")),
+                          ),
+                          contentPadding: EdgeInsets.all(5),
+                          border: OutlineInputBorder(),
+                          labelText: 'Username',
+                          hintText: 'Enter Username'
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 40),
-                  TextField(
-                    controller: _textUrlController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
-                      border: OutlineInputBorder(),
-                      labelText: 'openVidu server url',
-                      hintText: 'Enter openVidu server url'
+                    SizedBox(height:30,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        FlatButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right:10),
+                                child: Text(isOnline ? 'LunchStream' : '   Offline  ',
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
+                              ),
+                              Icon(Icons.video_call_sharp,color:Colors.black,size:30,),
+                            ],
+                          ),
+                          textColor: Colors.white,
+                          padding: EdgeInsets.all(15.0),
+                          shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(50)),
+                          color: Colors.green[400],
+                          disabledColor: Colors.grey,
+                          onPressed: isOnline ? ()  =>_launchStreamHandle(context)
+                              : null,
+                        ),
+
+                        FlatButton(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right:10),
+                                child: Text(isOnline ? 'WatchStream' : '   Offline  ',
+                                  style: TextStyle(fontSize: 20.0),
+                                ),
+                              ),
+                              Icon(Icons.personal_video_sharp,color:Colors.black,size:30,),
+                            ],
+                          ),
+
+                          textColor: Colors.white,
+                          padding: EdgeInsets.all(15.0),
+                          shape: RoundedRectangleBorder(borderRadius:BorderRadius.circular(50)),
+                          color: Colors.green[400],
+                          disabledColor: Colors.grey,
+                          onPressed: isOnline ? () =>
+                              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                                _saveSharedPref();
+                                return CallSampleWidget(
+                                    isWatching:true,
+                                    server: '${_textUrlController.text}:${_textPortController.text}',
+                                    sessionName: _textSessionController.text,
+                                    userName: _textUserNameController.text,
+                                    secret: _textSecretController.text,
+                                    iceServer: _textIceServersController.text );
+                              })
+                              ) : null,
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _textPortController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
-                      border: OutlineInputBorder(),
-                      labelText: 'openVidu server port',
-                      hintText: 'Enter openVidu server port'
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _textSecretController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
-                      border: OutlineInputBorder(),
-                      labelText: 'openVidu server secret',
-                      hintText: 'Enter openVidu server secret'
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  TextField(
-                    controller: _textIceServersController,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.all(5),
-                      border: OutlineInputBorder(),
-                      labelText: 'Ice server',
-                      hintText: 'Enter ice server url'
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  FlatButton(
-                    child: Text(isOnline ? 'LaunchStream' : '   Offline  ', style: TextStyle(fontSize: 20.0),),
-                    textColor: Colors.white,
-                    padding: EdgeInsets.all(15.0),
-                    color: Colors.green[400],
-                    disabledColor: Colors.grey,
-                    onPressed: isOnline ? ()  =>_launchStreamHandle(context)
-            : null,
-                  ),
-                  FlatButton(
-                    child: Text(isOnline ? 'WatchStream' : '   Offline  ', style: TextStyle(fontSize: 20.0),),
-                    textColor: Colors.white,
-                    padding: EdgeInsets.all(15.0),
-                    color: Colors.green[400],
-                    disabledColor: Colors.grey,
-                    onPressed: isOnline ? () =>
-                        Navigator.push(context, MaterialPageRoute(builder: (context) {
-                          _saveSharedPref();
-                          return CallSampleWidget(
-                              isWatching:true,
-                              server: '${_textUrlController.text}:${_textPortController.text}',
-                              sessionName: _textSessionController.text,
-                              userName: _textUserNameController.text,
-                              secret: _textSecretController.text,
-                              iceServer: _textIceServersController.text );
-                        })
-                        ) : null,
-                  ),
-                ],
+
+                  ],
+                ),
               ),
             ),
           ),
